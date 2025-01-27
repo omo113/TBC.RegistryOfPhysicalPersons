@@ -1,0 +1,6 @@
+@TBC.ROI.Api_HostAddress = http://localhost:5062
+
+GET {{TBC.ROI.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
