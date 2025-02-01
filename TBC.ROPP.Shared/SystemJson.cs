@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DailyReports.Shared;
+namespace TBC.ROPP.Shared;
 
 public class SystemJson
 {

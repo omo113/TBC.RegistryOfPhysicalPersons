@@ -2,5 +2,9 @@
 
 public enum PersonRelationshipType
 {
-
+    Colleague,
+    Acquaintance,
+    Relative,
+    Family,
+    Other
 }

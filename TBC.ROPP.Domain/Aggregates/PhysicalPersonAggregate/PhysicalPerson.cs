@@ -1,6 +1,6 @@
 ﻿using TBC.ROPP.Domain.Abstractions;
+using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Entities;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
-using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.NewFolder;
 using TBC.ROPP.Domain.Entities;
 
 namespace TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
@@ -14,18 +14,20 @@ public class PhysicalPerson : AggregateRoot
     public DateTimeOffset BirthDate { get; private set; }
     public int CityId { get; private set; }
     public City City { get; private set; }
-    public string PhoneNumber { get; private set; }
+
     public int FileRecordId { get; private set; }
-    public FileRecord FileRecord { get; private set; }
-    private readonly List<RelatedPhysicalPerson> _relatedPeopleList = new();
-    public IEnumerable<RelatedPhysicalPerson> RelatedPeopleList => _relatedPeopleList;
+    public FileRecord? FileRecord { get; private set; }
+    public int PhoneNumberId { get; private set; }
+    public PhoneNumber PhoneNumber { get; private set; }
+    private readonly List<RelatedPerson> _relatedPeopleList = [];
+    public IEnumerable<RelatedPerson> RelatedPeopleList => _relatedPeopleList;
 
     private PhysicalPerson()
     {
 
     }
 
-    private PhysicalPerson(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, string phoneNumber, int fileRecordId)
+    private PhysicalPerson(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, int fileRecordId, PhoneNumber phoneNumber)
     {
         UId = Guid.NewGuid();
         Name = name;
@@ -34,13 +36,12 @@ public class PhysicalPerson : AggregateRoot
         PersonalNumber = personalNumber;
         BirthDate = birthDate;
         CityId = cityId;
-        PhoneNumber = phoneNumber;
         FileRecordId = fileRecordId;
+        PhoneNumber = phoneNumber;
     }
 
-    public PhysicalPerson Create(string name, string lastName, Gender gender, string personalNumber,
-        DateTimeOffset birthDate, int cityId, string phoneNumber, int fileRecordId)
+    public PhysicalPerson Create(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, int fileRecordId, PhoneNumber phoneNumber)
     {
-        return new PhysicalPerson(name, lastName, gender, personalNumber, birthDate, cityId, phoneNumber, fileRecordId);
+        return new PhysicalPerson(name, lastName, gender, personalNumber, birthDate, cityId, fileRecordId, phoneNumber);
     }
 }

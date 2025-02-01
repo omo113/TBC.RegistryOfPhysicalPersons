@@ -1,5 +1,4 @@
-﻿using DailyReports.Shared;
-using System.Text.Json;
+﻿using System.Text.Json;
 using TBC.ROPP.Domain.Abstractions;
 using TBC.ROPP.Shared;
 
