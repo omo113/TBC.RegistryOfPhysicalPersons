@@ -1,6 +1,6 @@
 using TBC.ROPP.Domain.Entities;
 
-namespace TBC.ROPP.Application.Models;
+namespace TBC.ROPP.Application.Models.File;
 
 public record FileRecordDto(Guid Id, string Name, string Extension);
 

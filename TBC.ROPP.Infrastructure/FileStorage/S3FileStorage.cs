@@ -12,7 +12,7 @@ using TBC.ROPP.Shared.Settings;
 
 namespace TBC.ROPP.Infrastructure.FileStorage;
 
-public class S3FileStorage : IFileStorage
+public class S3FileStorage : IFileStorage, IS3Bucket
 {
     private const string BucketName = "TBC";
     private const string Path = "person-files";
@@ -117,6 +117,40 @@ public class S3FileStorage : IFileStorage
         catch (Exception ex)
         {
             _logger.LogError("Unknown error encountered. File Key:{@Key}, Message:'{@Message}'", key, ex.Message);
+            throw;
+        }
+    }
+    public async Task EnsureBucketExistsAsync(string bucketName, CancellationToken cancellationToken = default)
+    {
+        using var client = new AmazonS3Client(_credentials, _config);
+        try
+        {
+            var bucketsResponse = await client.ListBucketsAsync(cancellationToken);
+            if (!bucketsResponse.Buckets.Any(b =>
+                    b.BucketName.Equals(bucketName, StringComparison.OrdinalIgnoreCase)))
+            {
+                _logger.LogInformation("Bucket '{BucketName}' does not exist. Creating bucket...", bucketName);
+
+                var putBucketRequest = new PutBucketRequest
+                {
+                    BucketName = bucketName,
+                };
+                await client.PutBucketAsync(putBucketRequest, cancellationToken);
+                _logger.LogInformation("Bucket '{BucketName}' created successfully.", bucketName);
+            }
+            else
+            {
+                _logger.LogInformation("Bucket '{BucketName}' already exists.", bucketName);
+            }
+        }
+        catch (AmazonS3Exception ex)
+        {
+            _logger.LogError("Error encountered on server when checking/creating bucket '{BucketName}'. Message: '{Message}'", bucketName, ex.Message);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Unknown error encountered when checking/creating bucket '{BucketName}'. Message: '{Message}'", bucketName, ex.Message);
             throw;
         }
     }

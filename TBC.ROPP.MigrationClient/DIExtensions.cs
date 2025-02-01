@@ -11,6 +11,7 @@ public static class DIExtensions
         services.AddHostedService<MigrationService>();
         services.AddScoped<IMigrationClientScript, InitMigration>();
         services.AddScoped<IMigrationClientScript, ImportCitiesMigration>();
+        services.AddScoped<IMigrationClientScript, S3BucketMigration>();
         return services;
     }
 }

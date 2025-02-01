@@ -37,6 +37,7 @@ public static class DIExtension
     public static IServiceCollection AddFileInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IFileStorage, S3FileStorage>();
+        services.AddScoped<IS3Bucket, S3FileStorage>();
         return services;
     }
 }

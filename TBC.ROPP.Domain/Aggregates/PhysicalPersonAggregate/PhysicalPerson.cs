@@ -9,6 +9,8 @@ public class PhysicalPerson : AggregateRoot
 {
     public string Name { get; private set; }
     public string LastName { get; private set; }
+    public string NameGe { get; private set; }
+    public string LastNameGe { get; private set; }
     public Gender Gender { get; private set; }
     public string PersonalNumber { get; private set; }
     public DateTimeOffset BirthDate { get; private set; }
@@ -27,7 +29,8 @@ public class PhysicalPerson : AggregateRoot
 
     }
 
-    private PhysicalPerson(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, int fileRecordId, PhoneNumber phoneNumber)
+    private PhysicalPerson(string name, string lastName, string nameGe, string lastNameGe, Gender gender,
+        string personalNumber, DateTimeOffset birthDate, int cityId, PhoneNumber phoneNumber)
     {
         UId = Guid.NewGuid();
         Name = name;
@@ -36,12 +39,11 @@ public class PhysicalPerson : AggregateRoot
         PersonalNumber = personalNumber;
         BirthDate = birthDate;
         CityId = cityId;
-        FileRecordId = fileRecordId;
         PhoneNumber = phoneNumber;
     }
 
-    public PhysicalPerson Create(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, int fileRecordId, PhoneNumber phoneNumber)
+    public static PhysicalPerson Create(string name, string lastName, string nameGe, string lastNameGe, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, PhoneNumber phoneNumber)
     {
-        return new PhysicalPerson(name, lastName, gender, personalNumber, birthDate, cityId, fileRecordId, phoneNumber);
+        return new PhysicalPerson(name, lastName, nameGe, lastNameGe, gender, personalNumber, birthDate, cityId, phoneNumber);
     }
 }

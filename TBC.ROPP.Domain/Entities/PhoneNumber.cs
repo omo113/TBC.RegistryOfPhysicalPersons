@@ -19,7 +19,7 @@ public class PhoneNumber : Entity
         Number = number;
     }
 
-    public PhoneNumber Create(PhoneNumberType numberType, string number)
+    public static PhoneNumber Create(PhoneNumberType numberType, string number)
     {
         return new PhoneNumber(numberType, number);
     }

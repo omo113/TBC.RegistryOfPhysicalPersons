@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TBC.ROPP.Application.Models;
+using TBC.ROPP.Application.Models.File;
 
 namespace TBC.ROPP.Application.Services.Abstractions;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using TBC.ROPP.Application.Models;
+using TBC.ROPP.Application.Models.File;
 using TBC.ROPP.Application.Services.Abstractions;
 using TBC.ROPP.Domain.Entities;
 using TBC.ROPP.Infrastructure.FileStorage.Abstractions;
