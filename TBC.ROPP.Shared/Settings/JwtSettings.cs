@@ -1,4 +1,4 @@
-﻿namespace TBC.ROPP.Shared;
+﻿namespace TBC.ROPP.Shared.Settings;
 
 public class JwtSettings
 {

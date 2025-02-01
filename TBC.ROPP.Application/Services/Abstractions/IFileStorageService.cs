@@ -3,7 +3,7 @@ using TBC.ROPP.Application.Models;
 
 namespace TBC.ROPP.Application.Services.Abstractions;
 
-public interface IFileService
+public interface IFileStorageService
 {
     Task<FileRecordDto> UploadAsync(IFormFile file, CancellationToken cancellationToken);
     Task<FileRecordDto> GetFileRecordAsync(Guid id, CancellationToken cancellationToken);

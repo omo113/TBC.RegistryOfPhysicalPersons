@@ -9,7 +9,7 @@ using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
 
 namespace TBC.ROPP.Application.Services;
 
-public class FileService(IUnitOfWork unitOfWork, IRepository<FileRecord> fileRecordRepository, IFileStorage fileStorage) : IFileService
+public class FileStorageService(IUnitOfWork unitOfWork, IRepository<FileRecord> fileRecordRepository, IFileStorage fileStorage) : IFileStorageService
 {
     public async Task<FileRecordDto> GetFileRecordAsync(Guid id, CancellationToken cancellationToken = default)
     {
@@ -25,7 +25,7 @@ public class FileService(IUnitOfWork unitOfWork, IRepository<FileRecord> fileRec
         var data = await fileRecordRepository.Query(x => x.UId == id)
             .FirstAsync(cancellationToken: cancellationToken);
 
-        var stream = await fileStorage.DownloadFileAsync(data, cancellationToken);
+        var stream = await fileStorage.DownloadS3FileAsync(data, cancellationToken);
 
         return new FileRecordDownloadDto(data.UId, data.Name, data.Extension, stream);
     }
@@ -36,7 +36,7 @@ public class FileService(IUnitOfWork unitOfWork, IRepository<FileRecord> fileRec
         var name = Path.GetFileNameWithoutExtension(file.FileName);
         var fileRecord = new FileRecord(name, extension);
 
-        await fileStorage.UploadFileAsync(file, fileRecord.UId, cancellationToken);
+        await fileStorage.UploadS3FileAsync(file, fileRecord.UId, cancellationToken);
         await fileRecordRepository.Store(fileRecord);
         await unitOfWork.SaveAsync(cancellationToken);
 

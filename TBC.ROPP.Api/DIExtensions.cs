@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.Text;
+using TBC.ROPP.Shared.Translation;
 
 namespace TBC.ROPP.Api;
 
@@ -43,5 +44,10 @@ public static class DIExtensions
             });
         return services;
     }
-
+    public static IServiceCollection AddLocalizationService(this IServiceCollection services)
+    {
+        services.AddLocalization();
+        Translation.EnsureTranslationServiceWorks();
+        return services;
+    }
 }

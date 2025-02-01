@@ -10,6 +10,7 @@ public static class DIExtensions
     {
         services.AddHostedService<MigrationService>();
         services.AddScoped<IMigrationClientScript, InitMigration>();
+        services.AddScoped<IMigrationClientScript, ImportCitiesMigration>();
         return services;
     }
 }

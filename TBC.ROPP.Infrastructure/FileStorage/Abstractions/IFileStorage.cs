@@ -5,6 +5,6 @@ namespace TBC.ROPP.Infrastructure.FileStorage.Abstractions;
 
 public interface IFileStorage
 {
-    Task UploadFileAsync(IFormFile file, Guid uId, CancellationToken cancellationToken);
-    Task<MemoryStream> DownloadFileAsync(FileRecord key, CancellationToken cancellationToken);
+    Task UploadS3FileAsync(IFormFile file, Guid uId, CancellationToken cancellationToken);
+    Task<MemoryStream> DownloadS3FileAsync(FileRecord key, CancellationToken cancellationToken);
 }

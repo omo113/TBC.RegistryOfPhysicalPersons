@@ -26,6 +26,7 @@ builder.Services.AddControllers()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddOpenApi();
+builder.Services.AddLocalization();
 
 var app = builder.Build();
 
@@ -47,3 +48,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.AddRequestLocalization();
 app.Run();
+
+public partial class Program;

@@ -6,14 +6,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using TBC.ROPP.Application.Models.Auth;
 using TBC.ROPP.Application.Services.Abstractions;
 using TBC.ROPP.Domain.IdentityEntities;
-using TBC.ROPP.Shared;
+using TBC.ROPP.Shared.Settings;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace TBC.ROPP.Application.Services;
 
-public record AccessTokenDto(string? Issuer, string? Audience, double Expires, string Token);
+
 
 public class TokenService(
     IConfiguration configuration,

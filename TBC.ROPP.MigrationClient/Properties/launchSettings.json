@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "TBC.ROPP.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+
+      }
+    }
+  }
+}

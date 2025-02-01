@@ -3,12 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TBC.ROPP.Domain.IdentityEntities;
+using TBC.ROPP.Infrastructure.FileStorage;
 using TBC.ROPP.Infrastructure.FileStorage.Abstractions;
 using TBC.ROPP.Infrastructure.Persistance;
 using TBC.ROPP.Infrastructure.Repositories;
 using TBC.ROPP.Infrastructure.Repositories.Abstractions;
 using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
-using TBC.ROPP.Shared;
+using TBC.ROPP.Shared.Settings;
 
 namespace TBC.ROPP.Infrastructure;
 
@@ -35,7 +36,7 @@ public static class DIExtension
 
     public static IServiceCollection AddFileInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<IFileStorage, FileStorage.FileStorage>();
+        services.AddScoped<IFileStorage, S3FileStorage>();
         return services;
     }
 }
