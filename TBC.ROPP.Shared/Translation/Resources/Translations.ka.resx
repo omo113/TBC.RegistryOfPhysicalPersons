@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CityNotExist" xml:space="preserve">
+    <value>ასეთი ქალაქი არ არსეობს</value>
+  </data>
+  <data name="FileMustBeAnImage" xml:space="preserve">
+    <value>უნდა იყოს სურათი</value>
+  </data>
+  <data name="LastNameMustBeGeorgianOrLatin" xml:space="preserve">
+    <value>გვარი ან ლათინურად ან ქართულად უნდა იყოს</value>
+  </data>
+  <data name="MustBeOver18" xml:space="preserve">
+    <value>უნდა იყოს 18 ზე მეტი ასაკის</value>
+  </data>
+  <data name="NameMustBeGeorgianOrLatin" xml:space="preserve">
+    <value>სახელი ან ქართულად ან ინგლისურად უნდა იყოს</value>
+  </data>
+  <data name="PersonalNumber11Digits" xml:space="preserve">
+    <value>პირადი ნომერი უნდა იყოს 11 ციფრა</value>
+  </data>
+  <data name="PhysicalPersonNotExist" xml:space="preserve">
+    <value>ასეთი ფიზიკური პირი არ არსებობს</value>
+  </data>
+  <data name="RelatedPhysicalPersonNotExist" xml:space="preserve">
+    <value>ასეთი პირი აიდით '0' არ არსებობს</value>
+  </data>
   <data name="test" xml:space="preserve">
     <value>test</value>
   </data>

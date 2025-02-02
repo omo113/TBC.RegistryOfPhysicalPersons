@@ -5,6 +5,7 @@ using TBC.ROPP.Application.Models.Person;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
 using TBC.ROPP.Infrastructure.Repositories.Abstractions;
 using TBC.ROPP.Shared.ApplicationInfrastructure;
+using TBC.ROPP.Shared.Translation;
 
 namespace TBC.ROPP.Application.Queries.PhysicalPersonQueries;
 
@@ -12,9 +13,15 @@ public record PhysicalPersonDetailsQuery(int Id) : IRequest<ApplicationResult<Ph
 
 public class PhysicalPersonDetailsQueryValidator : AbstractValidator<PhysicalPersonDetailsQuery>
 {
-    public PhysicalPersonDetailsQueryValidator()
+    public PhysicalPersonDetailsQueryValidator(IRepository<PhysicalPerson> repository)
     {
-
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .MustAsync(async (person, token) =>
+            {
+                return await repository.Query(x => x.Id == person).AnyAsync(token);
+            })
+            .WithMessage(Translation.Translate("PhysicalPersonNotExist"));
     }
 }
 public class PhysicalPersonDetailsQueryHandler(IRepository<PhysicalPerson> repository) : IRequestHandler<PhysicalPersonDetailsQuery, ApplicationResult<PhysicalPersonDetailsDto, ApplicationError>>

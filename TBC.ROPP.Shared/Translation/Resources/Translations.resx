@@ -117,7 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CityNotExist" xml:space="preserve">
+    <value>city with this id does not exist</value>
+  </data>
+  <data name="FileMustBeAnImage" xml:space="preserve">
+    <value>must be an image</value>
+  </data>
+  <data name="LastNameMustBeGeorgianOrLatin" xml:space="preserve">
+    <value>LastName must be in Georgian or in Latin</value>
+  </data>
+  <data name="MustBeOver18" xml:space="preserve">
+    <value>must be over 18</value>
+  </data>
+  <data name="NameMustBeGeorgianOrLatin" xml:space="preserve">
+    <value>Name must be either in Georgian or in Latin</value>
+  </data>
+  <data name="PersonalNumber11Digits" xml:space="preserve">
+    <value>personal number must be 11 digits</value>
+  </data>
+  <data name="PhysicalPersonNotExist" xml:space="preserve">
+    <value>physical person does not exist</value>
+  </data>
+  <data name="RelatedPhysicalPersonNotExist" xml:space="preserve">
+    <value>related person with id '0' does not exist</value>
+  </data>
   <data name="test" xml:space="preserve">
-    <value />
+    <value>test</value>
   </data>
 </root>

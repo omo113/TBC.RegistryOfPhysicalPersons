@@ -6,6 +6,7 @@ using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
 using TBC.ROPP.Infrastructure.Repositories.Abstractions;
 using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
 using TBC.ROPP.Shared.ApplicationInfrastructure;
+using TBC.ROPP.Shared.Translation;
 
 namespace TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 
@@ -13,7 +14,16 @@ public record DeletePhysicalPersonCommand(int Id) : IRequest<ApplicationResult<P
 
 public class DeletePhysicalPersonCommandValidator : AbstractValidator<DeletePhysicalPersonCommand>
 {
-
+    public DeletePhysicalPersonCommandValidator(IRepository<PhysicalPerson> repository)
+    {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .MustAsync(async (person, token) =>
+            {
+                return await repository.Query(x => x.Id == person).AnyAsync(token);
+            })
+            .WithMessage(Translation.Translate("PhysicalPersonNotExist"));
+    }
 }
 public class DeletePhysicalPersonCommandHandler(IRepository<PhysicalPerson> repository, IUnitOfWork unitOfWork) : IRequestHandler<DeletePhysicalPersonCommand, ApplicationResult<PhysicalPersonsDto, ApplicationError>>
 {

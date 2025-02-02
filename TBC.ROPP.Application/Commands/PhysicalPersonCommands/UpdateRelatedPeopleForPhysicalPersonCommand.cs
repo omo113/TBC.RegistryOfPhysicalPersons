@@ -8,6 +8,7 @@ using TBC.ROPP.Domain.Shared;
 using TBC.ROPP.Infrastructure.Repositories.Abstractions;
 using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
 using TBC.ROPP.Shared.ApplicationInfrastructure;
+using TBC.ROPP.Shared.Translation;
 
 namespace TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 
@@ -16,7 +17,24 @@ public record UpdateRelatedPeopleForPhysicalPersonCommand(int Id, UpdateRelatedP
 public class UpdateRelatedPeopleForPhysicalPersonCommandValidator : AbstractValidator<
     UpdateRelatedPeopleForPhysicalPersonCommand>
 {
-
+    public UpdateRelatedPeopleForPhysicalPersonCommandValidator(IRepository<PhysicalPerson> repository)
+    {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .MustAsync(async (person, token) => { return await repository.Query(x => x.Id == person).AnyAsync(token); })
+            .WithMessage(Translation.Translate("PhysicalPersonNotExist"))
+            .DependentRules(() =>
+            {
+                RuleForEach(x => x.RelatedPersonModel.Select(id => id.PersonId))
+                    .MustAsync(async (id, token) =>
+                    {
+                        return await repository.Query(x => x.Id == id).AnyAsync(token);
+                    })
+                    .WithMessage(x => Translation.Translate("RelatedPhysicalPersonNotExist", x.Id));
+                RuleForEach(x => x.RelatedPersonModel.Select(id => id.RelationshipType))
+                    .IsInEnum();
+            });
+    }
 }
 
 public class UpdateRelatedPeopleForPhysicalPersonCommandHandler(IRepository<PhysicalPerson> personRepository, IUnitOfWork unitOfWork) : IRequestHandler<UpdateRelatedPeopleForPhysicalPersonCommand, ApplicationResult<PhysicalPersonsDto, ApplicationError>>
