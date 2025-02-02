@@ -4,6 +4,7 @@ using TBC.ROPP.Api;
 using TBC.ROPP.Api.Middlewares;
 using TBC.ROPP.Application;
 using TBC.ROPP.Infrastructure;
+using TBC.ROPP.MigrationClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services
     .AddDatabaseContext(builder.Configuration)
     .AddFileInfrastructure()
     .AddApplication(builder.Configuration);
+
+builder.Services.AddMigrations();
 builder.Services.AddAuthentication(builder.Configuration);
 
 builder.Services.AddControllers()
