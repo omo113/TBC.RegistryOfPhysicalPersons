@@ -5,10 +5,9 @@ namespace TBC.ROPP.MigrationClient.Scripts;
 
 public class S3BucketMigration(IS3Bucket s3Bucket) : PostMigrationClientScript
 {
-    private const string BucketName = "TBC";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        await s3Bucket.EnsureBucketExistsAsync(BucketName, cancellationToken);
+        await s3Bucket.EnsureBucketExistsAsync(cancellationToken);
     }
 }

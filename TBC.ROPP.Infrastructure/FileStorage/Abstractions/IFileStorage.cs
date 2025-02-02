@@ -11,5 +11,5 @@ public interface IFileStorage
 
 public interface IS3Bucket
 {
-    Task EnsureBucketExistsAsync(string bucketName, CancellationToken cancellationToken);
+    Task EnsureBucketExistsAsync(CancellationToken cancellationToken);
 }

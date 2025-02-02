@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.Section));
+builder.Services.Configure<AWSSettings>(builder.Configuration.GetSection(AWSSettings.Section));
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options =>
@@ -30,8 +31,9 @@ builder.Services.AddControllers()
                 .AddJsonOptions(options => { options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase; })
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddOpenApi();
-builder.Services.AddLocalization();
+builder.Services.AddSwagger();
+builder.Services.AddLocalization()
+                .AddLocalizationService();
 
 var app = builder.Build();
 

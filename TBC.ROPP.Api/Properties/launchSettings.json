@@ -3,12 +3,15 @@
     "TBC.ROPP.Api": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
-        "ApplicationSettings__DatabaseConnection": "Server=localhost,1433;Database=YourDatabaseName;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;",
+        "ApplicationSettings__DatabaseConnection": "Server=localhost,1433;Database=YourDatabaseName6;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;",
         "JwtSettings__SecretKey": "TestSecretKey",
         "JwtSettings__Issuer": "test",
         "JwtSettings__Audience": "TBCAudience",
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS__AccessKey": "root",
+        "AWS__SecretKey": "password"
 
       }
     }

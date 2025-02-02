@@ -20,7 +20,7 @@ public class Translation
         {
             if (!ReferenceEquals(_customErrorResourceMan, null)) return _customErrorResourceMan;
 
-            var temp = new ResourceManager("DailyReports.Shared.Translation.Resources.Translations", typeof(Translation).Assembly);
+            var temp = new ResourceManager("TBC.ROPP.Shared.Translation.Resources.Translations", typeof(Translation).Assembly);
             _customErrorResourceMan = temp;
             return _customErrorResourceMan;
         }

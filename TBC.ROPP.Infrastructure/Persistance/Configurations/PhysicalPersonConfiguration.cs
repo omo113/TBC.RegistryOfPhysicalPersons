@@ -19,5 +19,7 @@ public class PhysicalPersonConfiguration : EntityConfiguration<PhysicalPerson>
         builder.HasMany(x => x.PhoneNumbers)
                .WithOne();
 
+        builder.HasOne(x => x.FileRecord)
+            .WithMany();
     }
 }

@@ -15,10 +15,12 @@ public class RelatedPersonConfiguration : EntityConfiguration<RelatedPerson>
 
         builder.HasOne(x => x.PhysicalPerson)
             .WithMany(pp => pp.RelatedPeopleAsOwner)
-            .HasForeignKey(x => x.PhysicalPersonId);
+            .HasForeignKey(x => x.PhysicalPersonId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.RelatedPhysicalPerson)
             .WithMany(pp => pp.RelatedPeopleList)
-            .HasForeignKey(x => x.RelatedPhysicalPersonId);
+            .HasForeignKey(x => x.RelatedPhysicalPersonId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

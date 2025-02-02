@@ -14,7 +14,7 @@ namespace TBC.ROPP.Infrastructure.FileStorage;
 
 public class S3FileStorage : IFileStorage, IS3Bucket
 {
-    private const string BucketName = "TBC";
+    private const string BucketName = "tbc";
     private const string Path = "person-files";
     private readonly ILogger<S3FileStorage> _logger;
     private readonly BasicAWSCredentials _credentials;
@@ -27,9 +27,10 @@ public class S3FileStorage : IFileStorage, IS3Bucket
         _credentials = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
         _config = new AmazonS3Config
         {
-            ServiceURL = "http://localhost:9000", // Change this to your MinIO server's URL
-            ForcePathStyle = true, // Important for MinIO
-            UseHttp = true
+            ServiceURL = "http://localhost:9000", // Your local MinIO endpoint
+            ForcePathStyle = true,              // Required for MinIO
+            UseHttp = true,
+            SignatureVersion = "v4",            // Use AWS Signature Version 4
         };
     }
 
@@ -46,7 +47,7 @@ public class S3FileStorage : IFileStorage, IS3Bucket
             {
                 InputStream = memoryStream,
                 Key = s3FileName,
-                BucketName = "omo-testing",
+                BucketName = BucketName,
                 CannedACL = S3CannedACL.NoACL
             };
 
@@ -120,37 +121,38 @@ public class S3FileStorage : IFileStorage, IS3Bucket
             throw;
         }
     }
-    public async Task EnsureBucketExistsAsync(string bucketName, CancellationToken cancellationToken = default)
+    public async Task EnsureBucketExistsAsync(CancellationToken cancellationToken = default)
     {
         using var client = new AmazonS3Client(_credentials, _config);
         try
         {
             var bucketsResponse = await client.ListBucketsAsync(cancellationToken);
             if (!bucketsResponse.Buckets.Any(b =>
-                    b.BucketName.Equals(bucketName, StringComparison.OrdinalIgnoreCase)))
+                    b.BucketName.Equals(BucketName, StringComparison.OrdinalIgnoreCase)))
             {
-                _logger.LogInformation("Bucket '{BucketName}' does not exist. Creating bucket...", bucketName);
+                _logger.LogInformation("Bucket '{BucketName}' does not exist. Creating bucket...", BucketName);
 
-                var putBucketRequest = new PutBucketRequest
+                var request = new PutBucketRequest
                 {
-                    BucketName = bucketName,
+                    BucketName = BucketName,
+                    UseClientRegion = true,
                 };
-                await client.PutBucketAsync(putBucketRequest, cancellationToken);
-                _logger.LogInformation("Bucket '{BucketName}' created successfully.", bucketName);
+                var response = await client.PutBucketAsync(request, cancellationToken);
+                _logger.LogInformation("Bucket '{BucketName}' created successfully.", BucketName);
             }
             else
             {
-                _logger.LogInformation("Bucket '{BucketName}' already exists.", bucketName);
+                _logger.LogInformation("Bucket '{BucketName}' already exists.", BucketName);
             }
         }
         catch (AmazonS3Exception ex)
         {
-            _logger.LogError("Error encountered on server when checking/creating bucket '{BucketName}'. Message: '{Message}'", bucketName, ex.Message);
+            _logger.LogError("Error encountered on server when checking/creating bucket '{BucketName}'. Message: '{Message}'", BucketName, ex.Message);
             throw;
         }
         catch (Exception ex)
         {
-            _logger.LogError("Unknown error encountered when checking/creating bucket '{BucketName}'. Message: '{Message}'", bucketName, ex.Message);
+            _logger.LogError("Unknown error encountered when checking/creating bucket '{BucketName}'. Message: '{Message}'", BucketName, ex.Message);
             throw;
         }
     }

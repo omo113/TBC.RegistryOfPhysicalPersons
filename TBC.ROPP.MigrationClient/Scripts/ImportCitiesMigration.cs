@@ -8,14 +8,14 @@ using TBC.ROPP.Shared;
 
 namespace TBC.ROPP.MigrationClient.Scripts;
 
-internal record Cities(string NameKa, string Name);
+internal record Cities(string NameKa, string Name, string Location);
 
 public class ImportCitiesMigration(IUnitOfWork unitOfWork, IRepository<City> cityRepository) : PostMigrationClientScript
 {
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
         var assembly = Assembly.GetAssembly(typeof(SystemDate));
-        var resourceName = $"{assembly!.GetName().Name}.ImportedFiles.subdivisions.json";
+        var resourceName = $"{assembly!.GetName().Name}.ImportedFiles.Cities.json";
 
         await using var stream = assembly.GetManifestResourceStream(resourceName);
 

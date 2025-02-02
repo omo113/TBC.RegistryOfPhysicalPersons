@@ -18,7 +18,7 @@ public class PhysicalPerson : AggregateRoot
     public int CityId { get; private set; }
     public City City { get; private set; }
 
-    public int FileRecordId { get; private set; }
+    public int? FileRecordId { get; private set; }
     public FileRecord? FileRecord { get; private set; }
     private readonly List<PhoneNumber> _phoneNumbers = [];
     public IEnumerable<PhoneNumber> PhoneNumbers => _phoneNumbers;
