@@ -26,6 +26,7 @@ public static class DIExtension
             return true;
         });
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        services.AddScoped<IFileStorageService, FileStorageService>();
         return services;
     }
 }

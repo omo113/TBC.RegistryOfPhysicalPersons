@@ -6,6 +6,7 @@ using TBC.ROPP.Domain.IdentityEntities;
 using TBC.ROPP.Infrastructure.FileStorage;
 using TBC.ROPP.Infrastructure.FileStorage.Abstractions;
 using TBC.ROPP.Infrastructure.Persistance;
+using TBC.ROPP.Infrastructure.Persistance.Abstractions;
 using TBC.ROPP.Infrastructure.Repositories;
 using TBC.ROPP.Infrastructure.Repositories.Abstractions;
 using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
@@ -30,6 +31,7 @@ public static class DIExtension
 
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IMigrationDbContext, ApplicationDbContext>();
 
         return services;
     }
