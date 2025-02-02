@@ -13,6 +13,5 @@ public class FileRecordsConfiguration : EntityConfiguration<FileRecord>
         builder.ToTable("FileRecords", DbSchemas.FileStorage)
             .HasKey(x => x.Id);
         builder.HasAlternateKey(x => x.UId);
-        builder.Property(x => x.UId).HasDefaultValueSql("gen_random_uuid()");
     }
 }

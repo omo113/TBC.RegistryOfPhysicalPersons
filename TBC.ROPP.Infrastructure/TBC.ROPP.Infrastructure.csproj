@@ -25,4 +25,8 @@
     <ProjectReference Include="..\TBC.ROPP.Domain\TBC.ROPP.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
