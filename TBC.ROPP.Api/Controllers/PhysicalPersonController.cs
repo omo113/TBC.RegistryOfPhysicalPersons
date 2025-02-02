@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TBC.ROPP.Api.Abstractions;
 using TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 using TBC.ROPP.Application.Models.Person;
+using TBC.ROPP.Application.Queries.PhysicalPersonQueries;
 
 namespace TBC.ROPP.Api.Controllers;
 
@@ -33,5 +34,15 @@ public class PhysicalPersonController(IMediator mediator) : ApiControllerBase
     public async Task<IActionResult> UpdateRelatedPeopleAsync([FromBody] UploadPhysicalPersonImageCommand command)
     {
         return (await mediator.Send(command)).Match<IActionResult>(Ok, BadRequest);
+    }
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetDetailsAsync(int id)
+    {
+        return (await mediator.Send(new PhysicalPersonDetailsQuery(id))).Match(Ok, error => BadRequest(error) as IActionResult);
+    }
+    [HttpGet("report")]
+    public async Task<IActionResult> GetReport()
+    {
+        return (await mediator.Send(new PhysicalPersonReportQuery())).Match(Ok, error => BadRequest(error) as IActionResult);
     }
 }
