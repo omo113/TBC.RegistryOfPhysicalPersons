@@ -25,6 +25,7 @@ public static class PhysicalPersonHelpers
                 BirthDate = person.BirthDate,
                 City = person.City?.Name,
                 PersonalNumber = person.PersonalNumber,
-                CreateDate = person.CreateDate
+                CreateDate = person.CreateDate,
+                FileRecordUid = person.FileRecord?.UId
             };
 }

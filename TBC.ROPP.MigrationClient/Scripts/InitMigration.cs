@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
+using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Entities;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.ValueObjects;
 using TBC.ROPP.Domain.IdentityEntities;
@@ -17,9 +18,14 @@ public class InitMigration(
     IRepository<PhysicalPerson> repository)
     : PostMigrationClientScript
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly List<string> _names = ["giorgi", "pavle", "mariami", "nino", "gvanca", "levani", "jimsheri", "ramesaxeli", "rumesaxeli"];
-    private readonly List<string> _lastName = ["giorgi", "pavle", "mariami", "nino", "gvanca", "levani", "jimsheri", "ramesaxeli", "rumesaxeli"];
+    private readonly List<string> _lastName = ["gvati1", "gvati2", "gvati3", "gvati4", "gvati5", "gvati6", "gvati7", "gvati8", "gvati9"];
+
+    private readonly List<PersonRelationshipType> _personRelationshipTypes =
+    [
+        PersonRelationshipType.Colleague, PersonRelationshipType.Acquaintance, PersonRelationshipType.Relative,
+        PersonRelationshipType.Family, PersonRelationshipType.Other
+    ];
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
         var roleResult = await roleManager.CreateAsync(new ApplicationRole
@@ -51,7 +57,7 @@ public class InitMigration(
 
         var people = Enumerable.Range(0, 1000).Select(x => PhysicalPerson.Create(
             _names[Random.Shared.Next(_names.Count)],
-            _names[Random.Shared.Next(_names.Count)],
+            _lastName[Random.Shared.Next(_lastName.Count)],
             Random.Shared.Next(100) >= 50 ? Gender.Female : Gender.Male,
             $"{10_000_000_000 + x}",
             DateTimeOffset.Now,
@@ -59,10 +65,19 @@ public class InitMigration(
             new List<PhoneNumber>()
             {
                 PhoneNumber.Create(PhoneNumberType.Mobile,"123123213123")
-            }));
+            })).ToList();
         foreach (var person in people)
         {
             await repository.Store(person);
+        }
+
+        await unitOfWork.SaveAsync(cancellationToken);
+        foreach (var person in people[11..])
+        {
+            person.UpdateRelatedPeople(people[..10].Select(x =>
+                     RelatedPerson.Create(_personRelationshipTypes[Random.Shared.Next(_personRelationshipTypes.Count)],
+                        person.Id, x.Id))
+                .ToList());
         }
 
         await unitOfWork.SaveAsync(cancellationToken);

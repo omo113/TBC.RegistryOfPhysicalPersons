@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,7 @@ public static class DIExtension
         });
         services.AddIdentityCore<ApplicationUser>()
         .AddRoles<ApplicationRole>()
+        .AddUserManager<UserManager<ApplicationUser>>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));

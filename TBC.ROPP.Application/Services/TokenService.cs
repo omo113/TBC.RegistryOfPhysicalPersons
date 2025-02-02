@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,7 +16,6 @@ namespace TBC.ROPP.Application.Services;
 
 
 public class TokenService(
-    IConfiguration configuration,
     UserManager<ApplicationUser> userManager,
     IOptions<JwtSettings> jwtSettingsOptions) : ITokenService
 {
@@ -45,14 +43,14 @@ public class TokenService(
             Subject = new ClaimsIdentity(claims),
             Expires = expires,
             SigningCredentials = credentials,
-            Issuer = configuration[_jwtSettings.Issuer],
-            Audience = configuration[_jwtSettings.Audience]
+            Issuer = _jwtSettings.Issuer,
+            Audience = _jwtSettings.Audience
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        return new AccessTokenDto(tokenDescriptor.Issuer, tokenDescriptor.Audience, Convert.ToDouble(configuration["JwtSettings:AccessTokenExpirationMinutes"]) * 60, tokenHandler.WriteToken(token));
+        return new AccessTokenDto(tokenDescriptor.Issuer, tokenDescriptor.Audience, Convert.ToDouble(_jwtSettings.AccessTokenExpirationInMinutes) * 60, tokenHandler.WriteToken(token));
     }
 
     public string GenerateRefreshToken()

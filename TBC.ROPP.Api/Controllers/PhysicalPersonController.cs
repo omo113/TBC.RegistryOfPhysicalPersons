@@ -7,7 +7,7 @@ using TBC.ROPP.Application.Queries.PhysicalPersonQueries;
 
 namespace TBC.ROPP.Api.Controllers;
 
-[Route("api/v1/physical-person")]
+[Route("api/physical-person")]
 public class PhysicalPersonController(IMediator mediator) : ApiControllerBase
 {
     [HttpPost]
@@ -30,19 +30,24 @@ public class PhysicalPersonController(IMediator mediator) : ApiControllerBase
     {
         return (await mediator.Send(command)).Match<IActionResult>(Ok, BadRequest);
     }
-    [HttpPost("update-image")]
-    public async Task<IActionResult> UpdateRelatedPeopleAsync([FromBody] UploadPhysicalPersonImageCommand command)
+    [HttpPost("update-image/{id:int}")]
+    public async Task<IActionResult> UpdateRelatedPeopleAsync([FromRoute] int id, IFormFile file)
     {
-        return (await mediator.Send(command)).Match<IActionResult>(Ok, BadRequest);
+        return (await mediator.Send(new UploadPhysicalPersonImageCommand(id, file))).Match<IActionResult>(Ok, BadRequest);
     }
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetDetailsAsync(int id)
     {
         return (await mediator.Send(new PhysicalPersonDetailsQuery(id))).Match(Ok, error => BadRequest(error) as IActionResult);
     }
-    [HttpGet("report")]
-    public async Task<IActionResult> GetReport()
+    [HttpGet]
+    public async Task<IActionResult> GetListAsync(PhysicalPersonsQuery query)
     {
-        return (await mediator.Send(new PhysicalPersonReportQuery())).Match(Ok, error => BadRequest(error) as IActionResult);
+        return (await mediator.Send(query)).Match(Ok, error => BadRequest(error) as IActionResult);
+    }
+    [HttpGet("report")]
+    public async Task<IActionResult> GetReport(PhysicalPersonReportQuery query)
+    {
+        return (await mediator.Send(query)).Match(Ok, error => BadRequest(error) as IActionResult);
     }
 }

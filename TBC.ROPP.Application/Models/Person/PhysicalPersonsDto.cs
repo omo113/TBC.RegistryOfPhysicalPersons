@@ -12,6 +12,7 @@ public class PhysicalPersonsDto
     public required string? City { get; set; }
     public required string PersonalNumber { get; set; }
     public required DateTimeOffset CreateDate { get; set; }
+    public required Guid? FileRecordUid { get; set; }
 
 }
 

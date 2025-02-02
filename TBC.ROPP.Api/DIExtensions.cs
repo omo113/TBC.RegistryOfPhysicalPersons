@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Globalization;
 using System.Text;
 using TBC.ROPP.Shared.Translation;
@@ -14,8 +13,9 @@ public static class DIExtensions
     {
         var supportedCultures = new List<CultureInfo> { new("en-US"), new("ka-GE"), };
         var localizationOptions = new RequestLocalizationOptions()
-            .SetDefaultCulture("en-US")
-            .AddSupportedUICultures(supportedCultures.Select(x => x.Name).ToArray());
+            .SetDefaultCulture("ka-GE")
+            .AddSupportedUICultures(supportedCultures.Select(x => x.Name).ToArray())
+            .AddSupportedCultures(supportedCultures.Select(x => x.Name).ToArray());
 
         builder.UseRequestLocalization(localizationOptions);
 
@@ -56,7 +56,7 @@ public static class DIExtensions
     {
         services.AddSwaggerGen(options =>
          {
-             options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
              {
                  Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
                  Name = "Authorization",
@@ -83,25 +83,5 @@ public static class DIExtensions
              options.OperationFilter<AddRequiredHeadersOperationFilter>();
          });
         return services;
-    }
-}
-
-public class AddRequiredHeadersOperationFilter : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        // Ensure parameters list exists
-        if (operation.Parameters == null)
-            operation.Parameters = new List<OpenApiParameter>();
-
-        // Add the custom "culture" header parameter
-        operation.Parameters.Add(new OpenApiParameter
-        {
-            Name = "culture",
-            In = ParameterLocation.Header,
-            Description = "Culture header for the request (e.g., en-US, fr-FR)",
-            Required = false,
-            Schema = new OpenApiSchema { Type = "string" }
-        });
     }
 }

@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.Section));
 builder.Services.Configure<AWSSettings>(builder.Configuration.GetSection(AWSSettings.Section));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.Section));
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options =>
@@ -32,12 +33,12 @@ builder.Services.AddControllers()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddSwagger();
-builder.Services.AddLocalization()
-                .AddLocalizationService();
+builder.Services.AddLocalizationService();
 
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.UseCors("AllowOrigin");
 
 if (app.Environment.IsDevelopment())
@@ -48,12 +49,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.AddRequestLocalization();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.AddRequestLocalization();
+
 app.Run();
 
 

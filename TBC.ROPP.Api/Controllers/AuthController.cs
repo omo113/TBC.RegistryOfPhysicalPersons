@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TBC.ROPP.Api.Abstractions;
 using TBC.ROPP.Application.Models.Auth;
-using TBC.ROPP.Application.Services;
+using TBC.ROPP.Application.Services.Abstractions;
 using TBC.ROPP.Domain.IdentityEntities;
 using TBC.ROPP.Infrastructure.UnitOfWork.Abstractions;
 using TBC.ROPP.Shared.ApplicationInfrastructure;
@@ -12,7 +12,7 @@ namespace TBC.ROPP.Api.Controllers;
 
 
 [Route("api/auth")]
-public class AuthController(TokenService tokenService, UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+public class AuthController(ITokenService tokenService, UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
     : ApiControllerBase
 {
 

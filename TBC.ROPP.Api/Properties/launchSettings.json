@@ -5,8 +5,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ApplicationSettings__DatabaseConnection": "Server=localhost,1433;Database=YourDatabaseName6;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;",
-        "JwtSettings__SecretKey": "TestSecretKey",
+        "ApplicationSettings__DatabaseConnection": "Server=localhost,1433;Database=YourDatabaseName9;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;",
+        "JwtSettings__SecretKey": "TestSecretKeySuperSecretA!@3@#@!#!4",
         "JwtSettings__Issuer": "test",
         "JwtSettings__Audience": "TBCAudience",
         "ASPNETCORE_ENVIRONMENT": "Development",
