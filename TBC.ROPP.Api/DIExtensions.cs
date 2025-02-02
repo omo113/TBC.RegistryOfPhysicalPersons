@@ -13,7 +13,7 @@ public static class DIExtensions
     {
         var supportedCultures = new List<CultureInfo> { new("en-US"), new("ka-GE"), };
         var localizationOptions = new RequestLocalizationOptions()
-            .SetDefaultCulture("ka-GE")
+            .SetDefaultCulture("en-US")
             .AddSupportedUICultures(supportedCultures.Select(x => x.Name).ToArray())
             .AddSupportedCultures(supportedCultures.Select(x => x.Name).ToArray());
 
@@ -79,8 +79,6 @@ public static class DIExtensions
                     []
                 }
              });
-
-             options.OperationFilter<AddRequiredHeadersOperationFilter>();
          });
         return services;
     }

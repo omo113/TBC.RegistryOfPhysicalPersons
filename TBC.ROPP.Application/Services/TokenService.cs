@@ -36,7 +36,7 @@ public class TokenService(
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.AccessTokenExpirationInMinutes));
+        var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.AccessTokenExpirationInSeconds));
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -50,7 +50,7 @@ public class TokenService(
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        return new AccessTokenDto(tokenDescriptor.Issuer, tokenDescriptor.Audience, Convert.ToDouble(_jwtSettings.AccessTokenExpirationInMinutes) * 60, tokenHandler.WriteToken(token));
+        return new AccessTokenDto(tokenDescriptor.Issuer, tokenDescriptor.Audience, Convert.ToDouble(_jwtSettings.AccessTokenExpirationInSeconds) * 60, tokenHandler.WriteToken(token));
     }
 
     public string GenerateRefreshToken()
