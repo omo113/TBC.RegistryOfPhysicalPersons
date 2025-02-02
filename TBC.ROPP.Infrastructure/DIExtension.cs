@@ -23,9 +23,7 @@ public static class DIExtension
             var applicationSettings = sp.GetRequiredService<IOptions<ApplicationSettings>>();
             options.UseSqlServer(applicationSettings.Value.DatabaseConnection);
         });
-        services.AddIdentityCore<ApplicationUser>(options =>
-        {
-        })
+        services.AddIdentityCore<ApplicationUser>()
         .AddRoles<ApplicationRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 

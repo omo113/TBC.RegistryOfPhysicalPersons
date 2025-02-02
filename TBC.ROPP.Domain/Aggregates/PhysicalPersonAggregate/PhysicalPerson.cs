@@ -22,6 +22,11 @@ public class PhysicalPerson : AggregateRoot
     public FileRecord? FileRecord { get; private set; }
     private readonly List<PhoneNumber> _phoneNumbers = [];
     public IEnumerable<PhoneNumber> PhoneNumbers => _phoneNumbers;
+
+    // ReSharper disable once CollectionNeverUpdated.Local
+    private readonly List<RelatedPerson> _relatedPeopleAsOwner = new();
+    public IEnumerable<RelatedPerson> RelatedPeopleAsOwner => _relatedPeopleAsOwner;
+
     private readonly List<RelatedPerson> _relatedPeopleList = [];
     public IEnumerable<RelatedPerson> RelatedPeopleList => _relatedPeopleList;
 

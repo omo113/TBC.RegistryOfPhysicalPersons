@@ -15,6 +15,7 @@ builder.ConfigureAppConfiguration((context, configurationBuilder) =>
     sc.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     sc.AddDatabaseContext(hostContext.Configuration);
     sc.AddMigrations();
+    sc.AddFileInfrastructure();
     sc.AddHostedService<MigrationService>();
 });
 

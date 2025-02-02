@@ -14,9 +14,11 @@ public class RelatedPersonConfiguration : EntityConfiguration<RelatedPerson>
         builder.HasAlternateKey(x => x.UId);
 
         builder.HasOne(x => x.PhysicalPerson)
-            .WithMany(s => s.RelatedPeopleList);
+            .WithMany(pp => pp.RelatedPeopleAsOwner)
+            .HasForeignKey(x => x.PhysicalPersonId);
 
         builder.HasOne(x => x.RelatedPhysicalPerson)
-            .WithMany(x => x.RelatedPeopleList);
+            .WithMany(pp => pp.RelatedPeopleList)
+            .HasForeignKey(x => x.RelatedPhysicalPersonId);
     }
 }
