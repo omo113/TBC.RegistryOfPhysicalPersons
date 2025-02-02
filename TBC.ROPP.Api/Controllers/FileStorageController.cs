@@ -4,7 +4,7 @@ using TBC.ROPP.Application.Services.Abstractions;
 
 namespace TBC.ROPP.Api.Controllers;
 
-[Route("api/file-storage")]
+[Route("api/v1/file-storage")]
 public class FileStorageController(IFileStorageService fileStorageService) : ApiControllerBase
 {
     [HttpGet("{id:guid}/download")]

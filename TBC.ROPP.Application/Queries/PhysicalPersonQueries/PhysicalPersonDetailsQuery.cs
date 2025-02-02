@@ -39,10 +39,8 @@ public class PhysicalPersonDetailsQueryHandler(IRepository<PhysicalPerson> repos
                     new PhoneNumberDto(phoneNumber.PhoneNumberType, phoneNumber.Number)),
                 PersonalNumber = x.PersonalNumber,
                 LastName = x.LastName,
-                LastNameGe = x.LastNameGe,
                 FileUid = x.FileRecord != null ? x.FileRecord.UId : null,
                 Name = x.Name,
-                NameGe = x.NameGe,
                 RelatedPerson = x.RelatedPeopleList.Select(related => new RelatedPersonDto(
                     related.PersonRelationshipType, related.RelatedPhysicalPersonId,
                     related.RelatedPhysicalPerson.Name, related.RelatedPhysicalPerson.LastName))

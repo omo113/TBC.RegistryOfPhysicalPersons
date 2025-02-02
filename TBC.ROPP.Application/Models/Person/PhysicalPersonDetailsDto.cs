@@ -6,9 +6,7 @@ public class PhysicalPersonDetailsDto
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
-    public required string NameGe { get; set; }
     public required string LastName { get; set; }
-    public required string LastNameGe { get; set; }
     public required Gender Gender { get; set; }
     public required DateTimeOffset BirthDate { get; set; }
     public required int CityId { get; set; }

@@ -11,7 +11,7 @@ using TBC.ROPP.Shared.ApplicationInfrastructure;
 
 namespace TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 
-public record UpdatePhysicalPersonCommand(int Id, UpdatePhysicalPersonDto Model) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
+public record UpdatePhysicalPersonCommand(int Id, UpdatePhysicalPersonModel Model) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
 
 public class UpdatePhysicalPersonCommandValidator() : AbstractValidator<UpdatePhysicalPersonCommand>
 {
@@ -29,8 +29,6 @@ public class UpdatePhysicalPersonCommandHandler(IRepository<PhysicalPerson> repo
         return await phoneNumber
             .UpdateFields(request.Model.Name,
                 request.Model.LastName,
-                request.Model.NameGe,
-                request.Model.LastNameGe,
                 request.Model.Gender,
                 request.Model.BirthDate,
                 request.Model.CityId,

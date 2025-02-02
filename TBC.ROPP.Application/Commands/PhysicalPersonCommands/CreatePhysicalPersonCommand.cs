@@ -9,7 +9,7 @@ using TBC.ROPP.Shared.ApplicationInfrastructure;
 
 namespace TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 
-public record CreatePhysicalPersonCommand(CreatePhysicalPersonDto Model) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
+public record CreatePhysicalPersonCommand(CreatePhysicalPersonModel Model) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
 
 public class CreatePhysicalPersonCommandValidator() : AbstractValidator<CreatePhysicalPersonCommand>
 {

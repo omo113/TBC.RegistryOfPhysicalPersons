@@ -11,7 +11,7 @@ using TBC.ROPP.Shared.ApplicationInfrastructure;
 
 namespace TBC.ROPP.Application.Commands.PhysicalPersonCommands;
 
-public record UpdateRelatedPeopleForPhysicalPersonCommand(int Id, CreateRelatedPersonDto[] RelatedPersonModel) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
+public record UpdateRelatedPeopleForPhysicalPersonCommand(int Id, UpdateRelatedPersonDto[] RelatedPersonModel) : IRequest<ApplicationResult<PhysicalPersonsDto, ApplicationError>>;
 
 public class UpdateRelatedPeopleForPhysicalPersonCommandValidator : AbstractValidator<
     UpdateRelatedPeopleForPhysicalPersonCommand>

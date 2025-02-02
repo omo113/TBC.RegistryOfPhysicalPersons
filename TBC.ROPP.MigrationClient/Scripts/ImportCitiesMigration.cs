@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text.Json;
 using TBC.ROPP.Domain.Entities;
@@ -11,7 +10,7 @@ namespace TBC.ROPP.MigrationClient.Scripts;
 
 internal record Cities(string NameKa, string Name);
 
-public class ImportCitiesMigration(IServiceScopeFactory scopeFactory) : PostMigrationClientScript
+public class ImportCitiesMigration(IUnitOfWork unitOfWork, IRepository<City> cityRepository) : PostMigrationClientScript
 {
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -27,9 +26,6 @@ public class ImportCitiesMigration(IServiceScopeFactory scopeFactory) : PostMigr
                                                                                   },
                                                                                   cancellationToken: cancellationToken);
 
-        await using var scope = scopeFactory.CreateAsyncScope();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-        var cityRepository = scope.ServiceProvider.GetRequiredService<IRepository<City>>();
 
         foreach (var city in cities!)
         {

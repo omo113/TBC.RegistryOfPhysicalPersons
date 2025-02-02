@@ -12,8 +12,6 @@ public class PhysicalPerson : AggregateRoot
 {
     public string Name { get; private set; }
     public string LastName { get; private set; }
-    public string NameGe { get; private set; }
-    public string LastNameGe { get; private set; }
     public Gender Gender { get; private set; }
     public string PersonalNumber { get; private set; }
     public DateTimeOffset BirthDate { get; private set; }
@@ -22,7 +20,6 @@ public class PhysicalPerson : AggregateRoot
 
     public int FileRecordId { get; private set; }
     public FileRecord? FileRecord { get; private set; }
-    public int PhoneNumberId { get; private set; }
     private readonly List<PhoneNumber> _phoneNumbers = [];
     public IEnumerable<PhoneNumber> PhoneNumbers => _phoneNumbers;
     private readonly List<RelatedPerson> _relatedPeopleList = [];
@@ -33,7 +30,7 @@ public class PhysicalPerson : AggregateRoot
 
     }
 
-    private PhysicalPerson(string name, string lastName, string nameGe, string lastNameGe, Gender gender,
+    private PhysicalPerson(string name, string lastName, Gender gender,
         string personalNumber, DateTimeOffset birthDate, int cityId, IEnumerable<PhoneNumber> phoneNumbers)
     {
         UId = Guid.NewGuid();
@@ -44,19 +41,19 @@ public class PhysicalPerson : AggregateRoot
         BirthDate = birthDate;
         CityId = cityId;
         _phoneNumbers.AddRange(phoneNumbers);
+        //todo event
+
     }
 
-    public static PhysicalPerson Create(string name, string lastName, string nameGe, string lastNameGe, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, IEnumerable<PhoneNumber> phoneNumbers)
+    public static PhysicalPerson Create(string name, string lastName, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, IEnumerable<PhoneNumber> phoneNumbers)
     {
-        return new PhysicalPerson(name, lastName, nameGe, lastNameGe, gender, personalNumber, birthDate, cityId, phoneNumbers);
+        return new PhysicalPerson(name, lastName, gender, personalNumber, birthDate, cityId, phoneNumbers);
     }
 
-    public DomainResult<PhysicalPerson, DomainValidation> UpdateFields(string name, string lastName, string nameGe, string lastNameGe, Gender gender, DateTimeOffset birthDate, int cityId, List<PhoneNumber> phoneNumbers)
+    public DomainResult<PhysicalPerson, DomainValidation> UpdateFields(string name, string lastName, Gender gender, DateTimeOffset birthDate, int cityId, List<PhoneNumber> phoneNumbers)
     {
         Name = name;
         LastName = lastName;
-        NameGe = nameGe;
-        LastNameGe = lastNameGe;
         Gender = gender;
         BirthDate = birthDate;
         CityId = cityId;
@@ -77,6 +74,7 @@ public class PhysicalPerson : AggregateRoot
 
         _phoneNumbers.AddRange(phoneNumbersToAdd);
         LastChangeDate = SystemDate.Now;
+        //todo event
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
@@ -98,6 +96,7 @@ public class PhysicalPerson : AggregateRoot
 
         _relatedPeopleList.AddRange(relatedPeopleToAdd);
         LastChangeDate = SystemDate.Now;
+        //todo event
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
@@ -105,6 +104,8 @@ public class PhysicalPerson : AggregateRoot
     {
         FileRecordId = fileRecordId;
         LastChangeDate = SystemDate.Now;
+        //todo event
+
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
 }
