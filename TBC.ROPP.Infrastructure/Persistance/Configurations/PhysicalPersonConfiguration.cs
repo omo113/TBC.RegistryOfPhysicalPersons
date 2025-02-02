@@ -15,5 +15,9 @@ public class PhysicalPersonConfiguration : EntityConfiguration<PhysicalPerson>
         builder.Property(x => x.Name).HasMaxLength(64);
         builder.Property(x => x.LastName).HasMaxLength(64);
         builder.Property(x => x.PersonalNumber).HasMaxLength(32);
+
+        builder.HasMany(x => x.PhoneNumbers)
+               .WithOne();
+
     }
 }

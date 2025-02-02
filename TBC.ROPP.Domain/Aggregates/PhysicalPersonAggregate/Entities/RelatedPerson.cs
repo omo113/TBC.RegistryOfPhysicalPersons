@@ -1,9 +1,9 @@
-﻿using TBC.ROPP.Domain.Abstractions;
+﻿using TBC.ROPP.Domain.Abstractions.ValueObjects;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
 
 namespace TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Entities;
 
-public class RelatedPerson : Entity
+public class RelatedPerson : ValueObjectEntity
 {
     public PersonRelationshipType PersonRelationshipType { get; private set; }
     public int PhysicalPersonId { get; private set; }
@@ -22,8 +22,15 @@ public class RelatedPerson : Entity
         PhysicalPersonId = physicalPersonId;
     }
 
-    public RelatedPerson Create(PersonRelationshipType personRelationshipType, int physicalPersonId, int relatedPhysicalPersonId)
+    public static RelatedPerson Create(PersonRelationshipType personRelationshipType, int physicalPersonId, int relatedPhysicalPersonId)
     {
         return new RelatedPerson(personRelationshipType, physicalPersonId, relatedPhysicalPersonId);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return PersonRelationshipType;
+        yield return PhysicalPersonId;
+        yield return RelatedPhysicalPersonId;
     }
 }

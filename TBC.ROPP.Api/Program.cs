@@ -1,8 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TBC.ROPP.Api;
+using TBC.ROPP.Api.Middlewares;
 using TBC.ROPP.Application;
-using TBC.ROPP.Application.Middlewares;
 using TBC.ROPP.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,5 +48,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.AddRequestLocalization();
 app.Run();
+
 
 public partial class Program;

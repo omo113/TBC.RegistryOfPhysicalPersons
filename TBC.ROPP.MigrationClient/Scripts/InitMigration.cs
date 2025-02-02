@@ -24,7 +24,7 @@ public class InitMigration(
             throw new MigrationScriptFailedException(nameof(InitMigration), string.Concat(roleResult.Errors.Select(x => $"{x.Code} - {x.Description}")));
         }
 
-        var userResult = await userManager.CreateAsync(ApplicationUser.Create("admin", "admin", "admin"));
+        var userResult = await userManager.CreateAsync(ApplicationUser.Create("admin", "admin", "admin"), "Admin123!");
         if (!userResult.Succeeded)
         {
             throw new MigrationScriptFailedException(nameof(InitMigration), string.Concat(userResult.Errors.Select(x => $"{x.Code} - {x.Description}")));

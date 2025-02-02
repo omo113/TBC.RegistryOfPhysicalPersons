@@ -11,14 +11,6 @@ namespace TBC.ROPP.Application.Services;
 
 public class FileStorageService(IUnitOfWork unitOfWork, IRepository<FileRecord> fileRecordRepository, IFileStorage fileStorage) : IFileStorageService
 {
-    public async Task<FileRecordDto> GetFileRecordAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        var data = await fileRecordRepository.Query(x => x.UId == id)
-            .Select(x => new FileRecordDto(x.UId, x.Name, x.Extension))
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        return data;
-    }
 
     public async Task<FileRecordDownloadDto> GetFileAsync(Guid id, CancellationToken cancellationToken = default)
     {

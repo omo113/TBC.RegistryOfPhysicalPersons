@@ -1,7 +1,10 @@
 ﻿using TBC.ROPP.Domain.Abstractions;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Entities;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
+using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.ValueObjects;
 using TBC.ROPP.Domain.Entities;
+using TBC.ROPP.Domain.Shared;
+using TBC.ROPP.Shared;
 
 namespace TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
 
@@ -20,7 +23,8 @@ public class PhysicalPerson : AggregateRoot
     public int FileRecordId { get; private set; }
     public FileRecord? FileRecord { get; private set; }
     public int PhoneNumberId { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
+    private readonly List<PhoneNumber> _phoneNumbers = [];
+    public IEnumerable<PhoneNumber> PhoneNumbers => _phoneNumbers;
     private readonly List<RelatedPerson> _relatedPeopleList = [];
     public IEnumerable<RelatedPerson> RelatedPeopleList => _relatedPeopleList;
 
@@ -30,7 +34,7 @@ public class PhysicalPerson : AggregateRoot
     }
 
     private PhysicalPerson(string name, string lastName, string nameGe, string lastNameGe, Gender gender,
-        string personalNumber, DateTimeOffset birthDate, int cityId, PhoneNumber phoneNumber)
+        string personalNumber, DateTimeOffset birthDate, int cityId, IEnumerable<PhoneNumber> phoneNumbers)
     {
         UId = Guid.NewGuid();
         Name = name;
@@ -39,11 +43,68 @@ public class PhysicalPerson : AggregateRoot
         PersonalNumber = personalNumber;
         BirthDate = birthDate;
         CityId = cityId;
-        PhoneNumber = phoneNumber;
+        _phoneNumbers.AddRange(phoneNumbers);
     }
 
-    public static PhysicalPerson Create(string name, string lastName, string nameGe, string lastNameGe, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, PhoneNumber phoneNumber)
+    public static PhysicalPerson Create(string name, string lastName, string nameGe, string lastNameGe, Gender gender, string personalNumber, DateTimeOffset birthDate, int cityId, IEnumerable<PhoneNumber> phoneNumbers)
     {
-        return new PhysicalPerson(name, lastName, nameGe, lastNameGe, gender, personalNumber, birthDate, cityId, phoneNumber);
+        return new PhysicalPerson(name, lastName, nameGe, lastNameGe, gender, personalNumber, birthDate, cityId, phoneNumbers);
+    }
+
+    public DomainResult<PhysicalPerson, DomainValidation> UpdateFields(string name, string lastName, string nameGe, string lastNameGe, Gender gender, DateTimeOffset birthDate, int cityId, List<PhoneNumber> phoneNumbers)
+    {
+        Name = name;
+        LastName = lastName;
+        NameGe = nameGe;
+        LastNameGe = lastNameGe;
+        Gender = gender;
+        BirthDate = birthDate;
+        CityId = cityId;
+
+
+        var phoneNumbersToRemove = _phoneNumbers
+            .Where(pn => !phoneNumbers.Contains(pn))
+            .ToList();
+
+        foreach (var phoneNumber in phoneNumbersToRemove)
+        {
+            _phoneNumbers.Remove(phoneNumber);
+        }
+
+        var phoneNumbersToAdd = phoneNumbers
+            .Where(pn => !_phoneNumbers.Contains(pn))
+            .ToList();
+
+        _phoneNumbers.AddRange(phoneNumbersToAdd);
+        LastChangeDate = SystemDate.Now;
+
+        return new DomainResult<PhysicalPerson, DomainValidation>(this);
+    }
+
+    public DomainResult<PhysicalPerson, DomainValidation> UpdateRelatedPeople(List<RelatedPerson> relatedPeople)
+    {
+        var relatedPeopleToRemove = _relatedPeopleList
+            .Where(rp => !relatedPeople.Contains(rp))
+            .ToList();
+
+        foreach (var relatedPerson in relatedPeopleToRemove)
+        {
+            _relatedPeopleList.Remove(relatedPerson);
+        }
+
+        var relatedPeopleToAdd = relatedPeople
+            .Where(rp => !_relatedPeopleList.Contains(rp))
+            .ToList();
+
+        _relatedPeopleList.AddRange(relatedPeopleToAdd);
+        LastChangeDate = SystemDate.Now;
+
+        return new DomainResult<PhysicalPerson, DomainValidation>(this);
+    }
+    public DomainResult<PhysicalPerson, DomainValidation> UpdateFile(int fileRecordId)
+    {
+        FileRecordId = fileRecordId;
+        LastChangeDate = SystemDate.Now;
+        return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
 }

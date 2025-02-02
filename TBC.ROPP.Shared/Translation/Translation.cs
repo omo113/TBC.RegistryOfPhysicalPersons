@@ -26,13 +26,13 @@ public class Translation
         }
     }
 
-    public static string? Translate(string name, params object?[] parameters)
+    public static string Translate(string name, params object?[] parameters)
     {
         if (parameters.Length == 0)
         {
             try
             {
-                return CustomErrorMessageResourceManager.GetString(name);
+                return CustomErrorMessageResourceManager.GetString(name)!;
             }
             catch (Exception e)
             {

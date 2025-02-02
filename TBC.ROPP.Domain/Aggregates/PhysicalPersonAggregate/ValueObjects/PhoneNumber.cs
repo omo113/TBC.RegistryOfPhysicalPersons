@@ -1,10 +1,11 @@
-﻿using TBC.ROPP.Domain.Abstractions;
+﻿using TBC.ROPP.Domain.Abstractions.ValueObjects;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
 
-namespace TBC.ROPP.Domain.Entities;
+namespace TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.ValueObjects;
 
-public class PhoneNumber : Entity
+public class PhoneNumber : ValueObject
 {
+    public int Id { get; private set; }
     public PhoneNumberType PhoneNumberType { get; private set; }
     public string Number { get; private set; }
 
@@ -14,7 +15,6 @@ public class PhoneNumber : Entity
     }
     private PhoneNumber(PhoneNumberType numberType, string number)
     {
-        UId = Guid.NewGuid();
         PhoneNumberType = numberType;
         Number = number;
     }
@@ -22,5 +22,11 @@ public class PhoneNumber : Entity
     public static PhoneNumber Create(PhoneNumberType numberType, string number)
     {
         return new PhoneNumber(numberType, number);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return PhoneNumberType;
+        yield return Number;
     }
 }

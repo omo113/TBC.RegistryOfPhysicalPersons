@@ -4,6 +4,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "ApplicationSettings__DatabaseConnection": "Server=localhost,1433;Database=YourDatabaseName;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;",
+        "JwtSettings__SecretKey": "TestSecretKey",
+        "JwtSettings__Issuer": "test",
+        "JwtSettings__Audience": "TBCAudience",
+        "ASPNETCORE_ENVIRONMENT": "Development"
 
       }
     }
