@@ -119,7 +119,7 @@ public sealed class PhysicalPerson : AggregateRoot
         LastChangeDate = SystemDate.Now;
         Raise(new RelatedPeopleUpdated
         {
-            RelatedPeople = relatedPeople
+            RelatedPeopleIds = relatedPeople.Select(x => x.Id).ToList()
         });
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);

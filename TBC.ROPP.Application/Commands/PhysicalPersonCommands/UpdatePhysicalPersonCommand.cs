@@ -101,8 +101,8 @@ public class UpdatePhysicalPersonCommandHandler(IRepository<PhysicalPerson> repo
     public async Task<ApplicationResult<PhysicalPersonsDto, ApplicationError>> Handle(UpdatePhysicalPersonCommand request, CancellationToken cancellationToken)
     {
         var phoneNumber = await repository.Query(x => x.Id == request.Id)
-                                                       .Include(x => x.PhoneNumbers)
-                                                       .FirstAsync(cancellationToken: cancellationToken);
+                                                                  .Include(x => x.PhoneNumbers)
+                                                                  .FirstAsync(cancellationToken: cancellationToken);
         return await phoneNumber
             .UpdateFields(request.Model.Name,
                 request.Model.LastName,
@@ -116,6 +116,7 @@ public class UpdatePhysicalPersonCommandHandler(IRepository<PhysicalPerson> repo
                     return new ApplicationResult<PhysicalPersonsDto, ApplicationError>(res.CreatePhysicalPersonDto());
                 },
                 validation => validation.ToApplicationResultAsync<PhysicalPersonsDto>());
+
     }
 
 }

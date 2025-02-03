@@ -25,15 +25,26 @@ public class UpdateRelatedPeopleForPhysicalPersonCommandValidator : AbstractVali
             .WithMessage(Translation.Translate("PhysicalPersonNotExist"))
             .DependentRules(() =>
             {
-                RuleForEach(x => x.RelatedPersonModel.Select(id => id.PersonId))
-                    .MustAsync(async (id, token) =>
+                RuleForEach(x => x.RelatedPersonModel)
+                    .ChildRules(relatedPerson =>
                     {
-                        return await repository.Query(x => x.Id == id).AnyAsync(token);
-                    })
-                    .WithMessage(x => Translation.Translate("RelatedPhysicalPersonNotExist", x.Id));
-                RuleForEach(x => x.RelatedPersonModel.Select(id => id.RelationshipType))
-                    .IsInEnum();
+                        relatedPerson.RuleFor(x => x.PersonId)
+                            .MustAsync(async (id, token) =>
+                            {
+                                return await repository.Query(x => x.Id == id).AnyAsync(token);
+                            })
+                            .WithMessage(x => Translation.Translate("RelatedPhysicalPersonNotExist", x.PersonId));
+
+                        relatedPerson.RuleFor(x => x.RelationshipType)
+                            .IsInEnum();
+                    });
             });
+        RuleFor(x => x)
+            .Must(x =>
+            {
+                return x.RelatedPersonModel.All(item => item.PersonId != x.Id);
+            })
+            .WithMessage(Translation.Translate("CantContainSelf"));
     }
 }
 

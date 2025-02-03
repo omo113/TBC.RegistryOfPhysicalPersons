@@ -36,17 +36,17 @@ public class PhysicalPersonController(IMediator mediator) : ApiControllerBase
         return (await mediator.Send(new UploadPhysicalPersonImageCommand(id, file))).Match<IActionResult>(Ok, BadRequest);
     }
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetDetailsAsync(int id)
+    public async Task<IActionResult> GetDetailsAsync([FromRoute] int id)
     {
         return (await mediator.Send(new PhysicalPersonDetailsQuery(id))).Match(Ok, error => BadRequest(error) as IActionResult);
     }
     [HttpGet]
-    public async Task<IActionResult> GetListAsync(PhysicalPersonsQuery query)
+    public async Task<IActionResult> GetListAsync([FromQuery] PhysicalPersonsQuery query)
     {
         return (await mediator.Send(query)).Match(Ok, error => BadRequest(error) as IActionResult);
     }
     [HttpGet("report")]
-    public async Task<IActionResult> GetReport(PhysicalPersonReportQuery query)
+    public async Task<IActionResult> GetReport([FromQuery] PhysicalPersonReportQuery query)
     {
         return (await mediator.Send(query)).Match(Ok, error => BadRequest(error) as IActionResult);
     }

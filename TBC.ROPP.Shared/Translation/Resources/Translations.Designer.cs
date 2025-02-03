@@ -61,6 +61,15 @@ namespace TBC.ROPP.Shared.Translation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cant containt self id.
+        /// </summary>
+        internal static string CantContainSelf {
+            get {
+                return ResourceManager.GetString("CantContainSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to city with this id does not exist.
         /// </summary>
         internal static string CityNotExist {
