@@ -1,6 +1,7 @@
 ﻿using TBC.ROPP.Domain.Abstractions;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Entities;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Enums;
+using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.Events;
 using TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate.ValueObjects;
 using TBC.ROPP.Domain.Entities;
 using TBC.ROPP.Domain.Shared;
@@ -8,7 +9,7 @@ using TBC.ROPP.Shared;
 
 namespace TBC.ROPP.Domain.Aggregates.PhysicalPersonAggregate;
 
-public class PhysicalPerson : AggregateRoot
+public sealed class PhysicalPerson : AggregateRoot
 {
     public string Name { get; private set; }
     public string LastName { get; private set; }
@@ -46,7 +47,15 @@ public class PhysicalPerson : AggregateRoot
         BirthDate = birthDate;
         CityId = cityId;
         _phoneNumbers.AddRange(phoneNumbers);
-        //todo event
+        Raise(new PhysicalPersonCreatedEvent
+        {
+            BirthDate = BirthDate,
+            CityId = cityId,
+            Gender = gender,
+            LastName = lastName,
+            Name = lastName,
+            PersonalNumber = PersonalNumber
+        });
 
     }
 
@@ -79,7 +88,14 @@ public class PhysicalPerson : AggregateRoot
 
         _phoneNumbers.AddRange(phoneNumbersToAdd);
         LastChangeDate = SystemDate.Now;
-        //todo event
+        Raise(new PhysicalPersonUpdatedEvent
+        {
+            BirthDate = BirthDate,
+            CityId = cityId,
+            Gender = gender,
+            LastName = lastName,
+            Name = lastName
+        });
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
@@ -101,7 +117,10 @@ public class PhysicalPerson : AggregateRoot
 
         _relatedPeopleList.AddRange(relatedPeopleToAdd);
         LastChangeDate = SystemDate.Now;
-        //todo event
+        Raise(new RelatedPeopleUpdated
+        {
+            RelatedPeople = relatedPeople
+        });
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
@@ -109,8 +128,12 @@ public class PhysicalPerson : AggregateRoot
     {
         FileRecordId = fileRecordId;
         LastChangeDate = SystemDate.Now;
-        //todo event
+        Raise(new FileUpdatedEvent
+        {
+            FileRecordId = fileRecordId
+        });
 
         return new DomainResult<PhysicalPerson, DomainValidation>(this);
     }
 }
+
